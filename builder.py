@@ -11,7 +11,7 @@ import time
 import json
 
 # Argument parser setup
-parser = argparse.ArgumentParser(description='Build an Audicity multi-track project from multiple talkgroups in trunk-recorder recordings')
+parser = argparse.ArgumentParser(description='Build an Audacity multi-track project from multiple talkgroups in trunk-recorder recordings')
 parser.add_argument('Path', help='Path to the base trunk-recorder audio recording directory for the system in question')
 parser.add_argument('Date', help='Date of the recordings to retrieve in MM/DD/YYYY format')
 parser.add_argument('StartTime', help='Start time of the recordings to retrieve in HH:MM:SS format')
