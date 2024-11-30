@@ -55,7 +55,7 @@ def convert_wav_to_au(wavefilein,aufileout,start_sec=0,duration_sec=None):
 	max256s = []
 	rms256s = []
 	frames_read = 0
-	for k in range(0,(totalframes+255)/256):  #read 256 frames at a time to help create summary data while reading frames
+	for k in range(0,(totalframes+255)//256):  #read 256 frames at a time to help create summary data while reading frames
 		frames_to_read = min(256,totalframes-frames_read)  #read less than 256 frames if we're at the end of the file
 		frame = wav.readframes(frames_to_read)
 		if sampwidth == 1:
@@ -84,13 +84,13 @@ def convert_wav_to_au(wavefilein,aufileout,start_sec=0,duration_sec=None):
 			rms256s = []
 			counter64k = 0
 
-	au.write("dns.")  #backwards '.snd' from .au file format to specify little-endian
+	au.write(b"dns.")  #backwards '.snd' from .au file format to specify little-endian
 	au.write(struct.pack('<I',0x2C+len(summary256)*4+len(summary64k)*4))  #Data Offset in bytes
 	au.write(struct.pack('<I',0xFFFFFFFF))  #Data Size
 	au.write(struct.pack('<I',0x06))  #Data encoding format.  6=32 bit IEEE floating point
 	au.write(struct.pack('<I',srate))  #sampling rate
 	au.write(struct.pack('<I',1))  #number of interleaved audio channels
-	au.write("AudacityBlockFile112")  #Audacity-specific string
+	au.write(b"AudacityBlockFile112")  #Audacity-specific string
 
 	#write summary256 data (annotation field)
 	for sframe in summary256:
